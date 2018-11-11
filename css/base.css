@@ -1,0 +1,109 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+html {
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 13pt;
+}
+.banner {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+.banner h1 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  margin-left: 0;
+  font-size: 3rem;
+}
+.banner h2 {
+  margin-top: 0em;
+}
+.banner p {
+  margin-bottom: 0;
+}
+.banner-text * {
+  margin-left: 2rem;
+}
+.banner img {
+  width: 2.00in;
+  height: 2.00in;
+  margin-top: 2em;
+}
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+h1 {
+  font-size: 2rem;
+}
+h2 {
+  font-size: 1.5rem;
+}
+h3 {
+  font-size: 1.2rem;
+  font-weight: normal;
+}
+li {
+  margin: 0 0 0 2em;
+}
+table {
+  width: 100%;
+  font-size: 1rem;
+}
+tr {
+  /* Move second column all the way to the right */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
+}
+table * {
+  /*
+  * Table headers are required for pandoc pipe_tables, however
+  * I want them to look the same as the table content
+  */
+  font-weight: normal;
+  text-align: left;
+}
+.date {
+  display: block;
+  float: right;
+  text-align: right;
+}
+p {
+  margin-bottom: 0.25em;
+}
+ul {
+  margin-bottom: 0.75rem;
+}
+li {
+  margin-top: 0.125rem;
+  margin-bottom: 0.125rem;
+}
+.columns {
+  display: flex;
+  flex-direction: row;
+}
+.columns div {
+  /* make all items inside the flex container the same width */
+  width: 33%;
+  padding-right: 2rem;
+}
+.columns h3 {
+  margin-top: 0;
+}
+.columns ul {
+  margin-bottom: 0;
+}
+.page-break {
+  /* Should use the newer "break-before" but wkhtmltopdf doesn't seem to support it */
+  page-break-before: always;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

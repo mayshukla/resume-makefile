@@ -1,0 +1,28 @@
+<?DOCTYPE html>
+<html>
+<head>
+  <title>$name$</title>
+  <link rel="stylesheet" href="../../css/base.css">
+</head>
+<body>
+
+  <div class="banner">
+    <div class="banner-text">
+      <h1>$name$</h1>
+
+      <h2>Address</h2>
+      <p>$street$</p>
+      <p>$city$ $province$, $postal-code$</p>
+      <p>$phone$</p>
+      <p>$email$</p>
+      $if(website)$
+      <a href="http://$website$" target="_blank">$website$</a>
+      $endif$
+    </div>
+    <img src="$logo$"/>
+  </div>
+
+  $body$
+
+</body>
+</html>

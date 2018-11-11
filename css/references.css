@@ -1,0 +1,23 @@
+.banner h2 {
+  margin-bottom: 0.25rem;
+}
+
+/*
+ * All content on the references page is inside of a div with 
+ * class "references"
+ * 
+ * This is to ensure references specific formatting does not interfere
+ * with the banner formatting from base.css
+ */
+.references h2 {
+  /* This will be the heading that says "References" */
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+}
+.references p {
+  font-size: 1.2rem;
+}
+.references strong {
+  display: block;
+  margin-top: 1em;
+}
