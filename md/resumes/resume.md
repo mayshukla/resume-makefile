@@ -21,6 +21,7 @@ Cumulative Grade Point Average | 4.0/4.0
 New York, NY
 
 Software Developer
+
 - Did a thing
 - Did another thing
     - This involved stuff
@@ -30,6 +31,7 @@ Software Developer
 New York, NY
 
 Systems Administrator
+
 - Administered systems
     - This involved stuff
 - Did something else
