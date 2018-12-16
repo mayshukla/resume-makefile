@@ -38,6 +38,8 @@ MARGIN_LEFT_RIGHT = 0.9in
 
 all: $(RESUMES_PDF_TARGETS) $(REFERENCES_PDF_TARGETS)
 
+html: $(RESUMES_HTML_TARGETS) $(REFERENCES_HTML_TARGETS)
+
 # Create pdf directory if it doesn't exist
 # Convert html to pdf
 $(RESUMES_PDF_DIR)/%.pdf: $(RESUMES_HTML_DIR)/%.html
