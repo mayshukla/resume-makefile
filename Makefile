@@ -63,6 +63,8 @@ $(REFERENCES_HTML_DIR)/%.html: $(REFERENCES_MD_DIR)/%.$(MD_EXT)
 	mkdir -p $(REFERENCES_HTML_DIR)
 	pandoc --template $(REFERENCES_TEMPLATE) $< --from markdown --to html -o $@
 
+
+.PHONY: clean
 clean:
 	-rm -r $(RESUMES_HTML_DIR)
 	-rm -r $(RESUMES_PDF_DIR)
