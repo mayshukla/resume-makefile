@@ -36,7 +36,7 @@ html: $(HTML_TARGETS)
 # Convert html to pdf
 $(PDF_DIR)/%.pdf: $(HTML_DIR)/%.html
 	mkdir -p $(@D)
-	wkhtmltopdf --page-size $(PAGE_SIZE) \
+	wkhtmltopdf --enable-local-file-access --page-size $(PAGE_SIZE) \
 		--margin-top $(MARGIN_TOP_BOTTOM) --margin-bottom $(MARGIN_TOP_BOTTOM) \
 		--margin-left $(MARGIN_LEFT_RIGHT) --margin-right $(MARGIN_LEFT_RIGHT) \
 		$< $@
