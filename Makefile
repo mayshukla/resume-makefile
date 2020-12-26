@@ -45,7 +45,7 @@ $(PDF_DIR)/%.pdf: $(HTML_DIR)/%.html
 # Use $(RESUME_TEMPLATE) as a template (see pandoc templates)
 $(HTML_DIR)/$(RESUMES_SUBDIR)/%.html: $(MD_DIR)/$(RESUMES_SUBDIR)/%.$(MD_EXT)
 	mkdir -p $(@D)
-	pandoc --template $(RESUMES_TEMPLATE) $< --from markdown --to html -o $@
+	pandoc --template $(RESUME_TEMPLATE) $< --from markdown --to html -o $@
 
 # Do the same for references
 $(HTML_DIR)/$(REFERENCES_SUBDIR)/%.html: $(MD_DIR)/$(REFERENCES_SUBDIR)/%.$(MD_EXT)
