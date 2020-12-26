@@ -13,15 +13,15 @@ REFERENCES_TEMPLATE = templates/references-template.html
 # Destination directores for generated html resumes
 # and reference pages
 RESUMES_HTML_DIR = html/resumes
-REFERENCES_HTML_DIR = html/resumes
+REFERENCES_HTML_DIR = html/references
 # Destination directory for generated pdf resumes
 # and reference pages
 RESUMES_PDF_DIR = pdf/resumes
 REFERENCES_PDF_DIR = pdf/references
 
 # Construct list of markdown sources
-RESUMES_MD_SOURCES = $(shell find $(RESUMES_MD_DIR) -type f -name "*.$(MD_EXT)")
-REFERENCES_MD_SOURCES = $(shell find $(REFERENCES_MD_DIR) -type f -name "*.$(MD_EXT)")
+RESUMES_MD_SOURCES := $(wildcard $(RESUMES_MD_DIR)/*.$(MD_EXT))
+REFERENCES_MD_SOURCES := $(wildcard $(REFERENCES_MD_DIR)/*.$(MD_EXT))
 
 # Construct list of resume and reference page html intermediates
 RESUMES_HTML_TARGETS = $(patsubst $(RESUMES_MD_DIR)/%, $(RESUMES_HTML_DIR)/%, $(RESUMES_MD_SOURCES:.$(MD_EXT)=.html))
