@@ -24,10 +24,10 @@ MARGIN_LEFT_RIGHT = 0.9in
 MD_SOURCES := $(wildcard $(MD_DIR)/*/*.$(MD_EXT))
 
 # Construct list of html intermediates
-HTML_TARGETS = $(MD_SOURCES:$(MD_DIR)/%.$(MD_EXT)=$(HTML_DIR)/%.html)
+HTML_TARGETS := $(MD_SOURCES:$(MD_DIR)/%.$(MD_EXT)=$(HTML_DIR)/%.html)
 
 # Construct list of final pdfs
-PDF_TARGETS = $(MD_SOURCES:$(MD_DIR)/%.$(MD_EXT)=$(PDF_DIR)/%.pdf)
+PDF_TARGETS := $(MD_SOURCES:$(MD_DIR)/%.$(MD_EXT)=$(PDF_DIR)/%.pdf)
 
 all: $(PDF_TARGETS)
 
