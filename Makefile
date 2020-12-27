@@ -14,6 +14,9 @@ MD_EXT = md
 RESUME_TEMPLATE = templates/resume-template.html
 REFERENCES_TEMPLATE = templates/references-template.html
 
+RESUME_TEMPLATE_DEPS = css/base.css img/dummy.png
+REFERENCES_TEMPLATE_DEPS = $(RESUME_TEMPLATE_DEPS) css/references.css
+
 # Formatting for the html to pdf conversion
 PAGE_SIZE = Letter
 MARGIN_TOP_BOTTOM = 0.9in
@@ -43,12 +46,14 @@ $(PDF_DIR)/%.pdf: $(HTML_DIR)/%.html
 
 # Use pandoc to convert markdown content to html
 # Use $(RESUME_TEMPLATE) as a template (see pandoc templates)
-$(HTML_DIR)/$(RESUMES_SUBDIR)/%.html: $(MD_DIR)/$(RESUMES_SUBDIR)/%.$(MD_EXT)
+$(HTML_DIR)/$(RESUMES_SUBDIR)/%.html: $(MD_DIR)/$(RESUMES_SUBDIR)/%.$(MD_EXT) \
+		$(RESUME_TEMPLATE) $(RESUME_TEMPLATE_DEPS)
 	mkdir -p $(@D)
 	pandoc --template $(RESUME_TEMPLATE) $< --from markdown --to html -o $@
 
 # Do the same for references
-$(HTML_DIR)/$(REFERENCES_SUBDIR)/%.html: $(MD_DIR)/$(REFERENCES_SUBDIR)/%.$(MD_EXT)
+$(HTML_DIR)/$(REFERENCES_SUBDIR)/%.html: $(MD_DIR)/$(REFERENCES_SUBDIR)/%.$(MD_EXT) \
+		$(REFERENCES_TEMPLATE) $(REFERENCES_TEMPLATE_DEPS)
 	mkdir -p $(@D)
 	pandoc --template $(REFERENCES_TEMPLATE) $< --from markdown --to html -o $@
 
