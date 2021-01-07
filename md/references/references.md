@@ -1,4 +1,5 @@
 ---
+title: 'References' # HTML title, ignored in final PDF
 name: 'John Doe'
 logo: '../../img/dummy.png'
 street: '123 Road St'

@@ -1,7 +1,11 @@
-# Directories which contains markdown content for resumes
-# and reference pages
-RESUMES_MD_DIR = md/resumes
-REFERENCES_MD_DIR = md/references
+# Markdown source and html, pdf destination directories
+MD_DIR = md
+HTML_DIR = html
+PDF_DIR = pdf
+
+# Subdirectories for resumes and references (inside the above dirs)
+RESUMES_SUBDIR = resumes
+REFERENCES_SUBDIR = references
 
 # File extension for markdown to be converted to html, then pdf
 MD_EXT = md
@@ -10,61 +14,51 @@ MD_EXT = md
 RESUME_TEMPLATE = templates/resume-template.html
 REFERENCES_TEMPLATE = templates/references-template.html
 
-# Destination directores for generated html resumes
-# and reference pages
-RESUMES_HTML_DIR = html/resumes
-REFERENCES_HTML_DIR = html/resumes
-# Destination directory for generated pdf resumes
-# and reference pages
-RESUMES_PDF_DIR = pdf/resumes
-REFERENCES_PDF_DIR = pdf/references
-
-# Construct list of markdown sources
-RESUMES_MD_SOURCES = $(shell find $(RESUMES_MD_DIR) -type f -name "*.$(MD_EXT)")
-REFERENCES_MD_SOURCES = $(shell find $(REFERENCES_MD_DIR) -type f -name "*.$(MD_EXT)")
-
-# Construct list of resume and reference page html intermediates
-RESUMES_HTML_TARGETS = $(patsubst $(RESUMES_MD_DIR)/%, $(RESUMES_HTML_DIR)/%, $(RESUMES_MD_SOURCES:.$(MD_EXT)=.html))
-REFERENCES_HTML_TARGETS = $(patsubst $(REFERENCES_MD_DIR)/%, $(REFERENCES_HTML_DIR)/%, $(REFERENCES_MD_SOURCES:.$(MD_EXT)=.html))
-
-# Construct list of resume and reference page pdfs which should have been built
-RESUMES_PDF_TARGETS = $(patsubst $(RESUMES_MD_DIR)/%, $(RESUMES_PDF_DIR)/%, $(RESUMES_MD_SOURCES:.$(MD_EXT)=.pdf))
-REFERENCES_PDF_TARGETS = $(patsubst $(REFERENCES_MD_DIR)/%, $(REFERENCES_PDF_DIR)/%, $(REFERENCES_MD_SOURCES:.$(MD_EXT)=.pdf))
+RESUME_TEMPLATE_DEPS = css/base.css img/dummy.png
+REFERENCES_TEMPLATE_DEPS = $(RESUME_TEMPLATE_DEPS) css/references.css
 
 # Formatting for the html to pdf conversion
 PAGE_SIZE = Letter
 MARGIN_TOP_BOTTOM = 0.9in
 MARGIN_LEFT_RIGHT = 0.9in
 
-all: $(RESUMES_PDF_TARGETS) $(REFERENCES_PDF_TARGETS)
 
-html: $(RESUMES_HTML_TARGETS) $(REFERENCES_HTML_TARGETS)
+# Construct list of markdown sources
+MD_SOURCES := $(wildcard $(MD_DIR)/*/*.$(MD_EXT))
 
-# Create pdf directory if it doesn't exist
+# Construct list of html intermediates
+HTML_TARGETS := $(MD_SOURCES:$(MD_DIR)/%.$(MD_EXT)=$(HTML_DIR)/%.html)
+
+# Construct list of final pdfs
+PDF_TARGETS := $(MD_SOURCES:$(MD_DIR)/%.$(MD_EXT)=$(PDF_DIR)/%.pdf)
+
+all: $(PDF_TARGETS)
+
+html: $(HTML_TARGETS)
+
 # Convert html to pdf
-$(RESUMES_PDF_DIR)/%.pdf: $(RESUMES_HTML_DIR)/%.html
-	mkdir -p $(RESUMES_PDF_DIR)
-	wkhtmltopdf --page-size $(PAGE_SIZE) --margin-top $(MARGIN_TOP_BOTTOM) --margin-bottom $(MARGIN_TOP_BOTTOM) --margin-left $(MARGIN_LEFT_RIGHT) --margin-right $(MARGIN_LEFT_RIGHT) $< $@
-
-# Do the same for references
-$(REFERENCES_PDF_DIR)/%.pdf: $(REFERENCES_HTML_DIR)/%.html
-	mkdir -p $(REFERENCES_PDF_DIR)
-	wkhtmltopdf --page-size $(PAGE_SIZE) --margin-top $(MARGIN_TOP_BOTTOM) --margin-bottom $(MARGIN_TOP_BOTTOM) --margin-left $(MARGIN_LEFT_RIGHT) --margin-right $(MARGIN_LEFT_RIGHT) $< $@
+$(PDF_DIR)/%.pdf: $(HTML_DIR)/%.html
+	mkdir -p $(@D)
+	wkhtmltopdf --enable-local-file-access --page-size $(PAGE_SIZE) \
+		--margin-top $(MARGIN_TOP_BOTTOM) --margin-bottom $(MARGIN_TOP_BOTTOM) \
+		--margin-left $(MARGIN_LEFT_RIGHT) --margin-right $(MARGIN_LEFT_RIGHT) \
+		$< $@
 
 # Use pandoc to convert markdown content to html
 # Use $(RESUME_TEMPLATE) as a template (see pandoc templates)
-# Save the result as $(RESUME_HTML)
-$(RESUMES_HTML_DIR)/%.html: $(RESUMES_MD_DIR)/%.$(MD_EXT)
-	mkdir -p $(RESUMES_HTML_DIR)
+$(HTML_DIR)/$(RESUMES_SUBDIR)/%.html: $(MD_DIR)/$(RESUMES_SUBDIR)/%.$(MD_EXT) \
+		$(RESUME_TEMPLATE) $(RESUME_TEMPLATE_DEPS)
+	mkdir -p $(@D)
 	pandoc --template $(RESUME_TEMPLATE) $< --from markdown --to html -o $@
 
 # Do the same for references
-$(REFERENCES_HTML_DIR)/%.html: $(REFERENCES_MD_DIR)/%.$(MD_EXT)
-	mkdir -p $(REFERENCES_HTML_DIR)
+$(HTML_DIR)/$(REFERENCES_SUBDIR)/%.html: $(MD_DIR)/$(REFERENCES_SUBDIR)/%.$(MD_EXT) \
+		$(REFERENCES_TEMPLATE) $(REFERENCES_TEMPLATE_DEPS)
+	mkdir -p $(@D)
 	pandoc --template $(REFERENCES_TEMPLATE) $< --from markdown --to html -o $@
 
+
+.PHONY: clean
 clean:
-	-rm -r $(RESUMES_HTML_DIR)
-	-rm -r $(RESUMES_PDF_DIR)
-	-rm -r $(REFERENCES_HTML_DIR)
-	-rm -r $(REFERENCES_PDF_DIR)
+	-rm -rf $(HTML_DIR)/*
+	-rm -rf $(PDF_DIR)/*
